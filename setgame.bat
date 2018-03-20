@@ -2,5 +2,5 @@
 title Discord Rich Presence Status
 :start
 node setgame.js
-cls
+rem cls
 goto start
