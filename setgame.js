@@ -1,37 +1,32 @@
 const path = require('path');
-const url = require('url');
 const DiscordRPC = require('discord-rpc');
-const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 const custom = require("./functions.js");
-var xhr = new XMLHttpRequest();
-xhr.open("GET", "https://www.furrybot.me/dev/devstatus.php", false);
-xhr.setRequestHeader("Authorization", "Password NOPE");
-xhr.setRequestHeader("Content-Type", "application/json");
-xhr.send();
-const ClientId = JSON.parse(xhr.responseText).main.clientid;
+const ClientId = "419312270846197770";
 const rpc = new DiscordRPC.Client({ transport: 'ipc' });
 const startTimestamp = new Date();
+const status={
+	details: "Just messing around~",
+	state: "N-Nothing..",
+	largeKey: "arno_and_celio",
+	largeText: "Arno and Celio <3",
+	smallKey: "furry_paw",
+	smallText: "FURRY PRIDE!!!"
+};
 
 DiscordRPC.register(ClientId);
 
 function setActivity() {
-	var xhr = new XMLHttpRequest();
-	xhr.open("GET", "https://www.furrybot.me/dev/devstatus.php", false);
-	xhr.setRequestHeader("Authorization", "Password NOPE");
-	xhr.setRequestHeader("Content-Type", "application/json");
-	xhr.send();
-	var info=JSON.parse(xhr.responseText);
 	rpc.setActivity({
-    details: info.richstatus.text.details,
-	state: info.richstatus.text.state,
+    details: status.details,
+	state: status.state,
     startTimestamp,
-    largeImageKey: info.richstatus.image.large_image,
-    largeImageText: info.richstatus.text.large_image_text,
-    smallImageKey: info.richstatus.image.small_image,
-    smallImageText: info.richstatus.text.small_image_text,
+    largeImageKey: status.largeKey,
+    largeImageText: status.largeText,
+    smallImageKey: status.smallKey,
+    smallImageText: status.smallText,
     instance: false,
   });
-  console.log(`[${custom.getCurrentTimestamp().split("T")[1].replace("Z","")}] Updated rich presence;${"\n"}Details: ${info.richstatus.text.details}${"\n"}State: ${info.richstatus.text.state}${"\n"}Large Image: ${info.richstatus.image.large_image}${"\n"}Large Image Text: ${info.richstatus.text.large_image_text}${"\n"}Small Image: ${info.richstatus.image.small_image}${"\n"}Small Image Text: ${info.richstatus.text.small_image_text}${"\n"}${"\n"}`);
+  console.log(`[${custom.getCurrentTimestamp().split("T")[1].replace("Z","")}] Set Presence`);
 }
 rpc.on('ready', () => {
 	setActivity();
